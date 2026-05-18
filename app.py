@@ -1,9 +1,15 @@
-import pandas as pd
+from services.leitor import ler_clientes
+from services.mensagens import gerar_mensagem
+from services.logs import salvar_log
+from services.database import criar_tabela
+from services.database import salvar_cliente
 from datetime import datetime
+
+criar_tabela()
 
 hoje = datetime.now()
 
-df = pd.read_csv("clientes.csv", sep=";")
+df = ler_clientes()
 
 for index, row in df.iterrows():
     vencimento = datetime.strptime(
@@ -12,19 +18,19 @@ for index, row in df.iterrows():
     )
     dias_restantes = (vencimento - hoje).days
     
-    mensagem = f"""
-    
-    Olá {row['nome']}!
-    
-    Seu certificado digital {row['certificado']} vencerá em {dias_restantes} dias.
-    
-    Entre em contato conosco clicando no botão abaixo para fazermos a renovação. 
-    
-    A AR Certicor agradeçe a preferência, não responda está mensagem!
-    
-    """
+    mensagem = gerar_mensagem(
+        row["nome"],
+        row["certificado"],
+        dias_restantes
+    )
     
     print(mensagem)
     
-    with open("logs.txt", "a", encoding="utf-8") as log:
-        log.write(f"{row['nome']} processado em {datetime.now()}\n")
+    salvar_log(row["nome"])
+    salvar_cliente(
+        row["nome"],
+        row["telefone"],
+        row["certificado"],
+        row["vencimento"]
+        
+    )
