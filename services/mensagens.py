@@ -6,7 +6,7 @@ def gerar_mensagem(nome, certificado, dias_restantes):
     
     Entre em contato conosco clicando no botão abaixo para fazermos a renovação. 
     
-    A AR Certicor agradeçe a preferência, não responda está mensagem!
+    A AR Certicor agradeçe a preferência, não responda esta mensagem!
     
     """
     

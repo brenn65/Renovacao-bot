@@ -46,3 +46,24 @@ def salvar_cliente(nome, telefone, certificado, vencimento):
         conn.commit()
         
         conn.close()
+        
+def cliente_existe(telefone, certificado):
+    
+        conn = conectar()
+        
+        cursor = conn.cursor()  
+        
+        cursor.execute(
+            """
+            SELECT *
+            FROM clientes_processados
+            WHERE telefone = ?
+            AND certificado = ?
+            """,
+            (telefone, certificado)
+        )
+        
+        resultado = cursor.fetchone()
+        conn.close()
+        return resultado
+    
